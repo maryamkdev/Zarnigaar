@@ -1,0 +1,50 @@
+"use client";
+
+import { useActionState, useEffect, useState } from "react";
+import { toast } from "sonner";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import type { FormState } from "@/actions/admin/categories";
+
+interface AdminFormDialogProps {
+  action: (prevState: FormState, formData: FormData) => Promise<FormState>;
+  trigger: React.ReactElement;
+  title: string;
+  children: React.ReactNode;
+  successMessage?: string;
+}
+
+export function AdminFormDialog({ action, trigger, title, children, successMessage }: AdminFormDialogProps) {
+  const [open, setOpen] = useState(false);
+  const [state, formAction, pending] = useActionState<FormState, FormData>(action, { error: null });
+
+  useEffect(() => {
+    if (state.success) {
+      toast.success(successMessage ?? "Saved");
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- closes the dialog in reaction to the server action's result
+      setOpen(false);
+    }
+  }, [state.success, successMessage]);
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      {/* `trigger` is always a real <button> (or our Button component),
+          so it becomes the trigger's rendered element directly — no
+          wrapping <span>, which would nest an interactive element inside
+          another one and misreport its native-button-ness to Base UI. */}
+      <DialogTrigger render={trigger} />
+      <DialogContent className="max-w-lg bg-cream">
+        <DialogHeader>
+          <DialogTitle className="font-heading text-xl font-normal">{title}</DialogTitle>
+        </DialogHeader>
+        <form action={formAction} className="flex flex-col gap-4">
+          {children}
+          {state.error && <p className="text-sm text-destructive">{state.error}</p>}
+          <Button type="submit" disabled={pending} className="rounded-none">
+            {pending ? "Saving..." : "Save"}
+          </Button>
+        </form>
+      </DialogContent>
+    </Dialog>
+  );
+}
