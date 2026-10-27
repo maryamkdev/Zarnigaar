@@ -29,7 +29,7 @@ export function ProductForm({ action, categories, product, status = "active", su
         </div>
         <div className="grid gap-1.5">
           <Label htmlFor="slug">Slug</Label>
-          <Input id="slug" name="slug" defaultValue={product?.slug} placeholder="embroidered-lawn-suit" required />
+          <Input id="slug" name="slug" defaultValue={product?.slug} placeholder="article-001" required />
         </div>
       </div>
 
@@ -41,6 +41,7 @@ export function ProductForm({ action, categories, product, status = "active", su
       <div className="grid gap-1.5">
         <Label htmlFor="fabricDetails">Fabric details</Label>
         <Textarea id="fabricDetails" name="fabricDetails" rows={3} maxLength={10000} defaultValue={product?.fabricDetails} />
+        <p className="text-xs text-muted-foreground">Enter the fabric information for this article. Leave blank to hide this section.</p>
       </div>
 
       <div className="grid gap-1.5">

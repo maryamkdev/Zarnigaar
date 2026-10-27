@@ -8,7 +8,7 @@ with expected(table_name) as (values
   ('profiles'), ('admin_users'), ('categories'), ('collections'), ('products'),
   ('product_images'), ('collection_products'), ('orders'), ('order_items'),
   ('discounts'), ('discount_usages'), ('deals'), ('wishlists'), ('wishlist_items'),
-  ('faqs'), ('media'), ('contact_messages')
+  ('faqs'), ('media'), ('contact_messages'), ('product_reviews')
 )
 select e.table_name, c.oid is not null as table_exists,
   coalesce(c.relrowsecurity, false) as rls_enabled,
@@ -82,4 +82,16 @@ select
   (select count(*) from public.products where status = 'active') as active_products,
   (select count(*) from public.product_images) as product_images,
   (select count(*) from public.orders) as orders,
-  (select count(*) from public.contact_messages) as contact_messages;
+  (select count(*) from public.contact_messages) as contact_messages,
+  (select count(*) from public.product_reviews) as product_reviews;
+
+-- 10. Review summary view must respect underlying table RLS.
+select relname, reloptions from pg_class
+where oid = 'public.product_rating_summaries'::regclass;
+
+-- 11. All review write restrictions should be true.
+select
+  not has_table_privilege('anon', 'public.product_reviews', 'INSERT') as guests_cannot_post,
+  has_column_privilege('authenticated', 'public.product_reviews', 'rating', 'INSERT') as customers_can_rate,
+  not has_column_privilege('authenticated', 'public.product_reviews', 'user_id', 'INSERT') as customers_cannot_forge_author,
+  not has_column_privilege('authenticated', 'public.product_reviews', 'product_id', 'UPDATE') as reviews_cannot_move_products;

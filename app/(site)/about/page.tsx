@@ -17,44 +17,38 @@ export default function AboutPage() {
       <div className="container-page max-w-3xl py-16">
         <Reveal>
           <p className="text-sm leading-relaxed text-muted-foreground">
-            Zarnigaar was founded on a simple belief: that everyday clothing can carry the weight of tradition
-            without losing its ease. Rooted in Pakistan&apos;s rich textile heritage, our name, drawn from the art of
-            fine embroidery, reflects our commitment to craftsmanship in every piece we create.
+            Discover clothing, scarves, dupattas and accessories from Zarnigaar.
+            Browse the collection and find the individual details for each article on its product page.
           </p>
         </Reveal>
 
         <Reveal delay={0.1} className="mt-10" id="craftsmanship">
-          <h2 className="font-heading text-2xl">Craftsmanship</h2>
+          <h2 className="font-heading text-2xl">Product Details</h2>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-            Every Zarnigaar piece begins with fabric sourced for its quality and finished by artisans who carry
-            generations of embroidery and weaving knowledge. From hand-finished necklines to signature scarf prints,
-            we treat every detail as an opportunity for quality, not just decoration.
+            Each article has its own description. Fabric information and care instructions
+            appear when provided for that particular product.
           </p>
         </Reveal>
 
         <Reveal delay={0.15} className="mt-10">
-          <h2 className="font-heading text-2xl">Pakistani Textile Heritage</h2>
+          <h2 className="font-heading text-2xl">Find Your Style</h2>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-            Pakistan&apos;s textile tradition spans centuries of lawn weaving, block printing and embroidery. We draw on
-            this heritage while designing for how women actually dress today: effortless silhouettes that move
-            easily from morning to evening.
+            Explore the latest arrivals or browse by category to find an article for your wardrobe.
           </p>
         </Reveal>
 
         <Reveal delay={0.2} className="mt-10">
-          <h2 className="font-heading text-2xl">Quality &amp; Timeless Fashion</h2>
+          <h2 className="font-heading text-2xl">Questions About an Article?</h2>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-            We design for longevity, not trend cycles. Our lawn suits, embroidered pieces and signature scarves are
-            built to be worn for seasons, not weeks, an approach to fashion that respects both the maker and the
-            wearer.
+            If you need more information before ordering, contact us with the article name or SKU.
           </p>
         </Reveal>
 
         <Reveal delay={0.25} className="mt-10">
           <h2 className="font-heading text-2xl">Clothing &amp; Scarves</h2>
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-            From ready-to-wear lawn and embroidered suits to our signature scarf collection, every Zarnigaar product
-            is designed to work together, a considered wardrobe rather than a collection of one-off pieces.
+            Browse our clothing and scarf collections, then check each product page for available
+            sizes, colors and article details.
           </p>
         </Reveal>
       </div>

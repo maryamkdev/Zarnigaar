@@ -4,9 +4,9 @@ import { productSchema } from '../lib/validation/product.ts';
 import { dealSchema, isSafeNavigation } from '../lib/validation/deal.ts';
 
 const article = {
-  name: 'Embroidered lawn suit', slug: 'embroidered-lawn', description: 'Three-piece suit',
-  price: '5000', salePrice: '', sku: 'LAWN-01', stock: '4', categoryId: 'category',
-  status: 'draft', sizes: 'S, M, L', fabricDetails: 'Cotton lawn',
+  name: 'Article 001', slug: 'article-001', description: 'Article description',
+  price: '5000', salePrice: '', sku: 'ARTICLE-01', stock: '4', categoryId: 'category',
+  status: 'draft', sizes: 'S, M, L', fabricDetails: 'Fabric information entered by the shop owner',
   additionalDetails: 'Includes a dupatta', careInstructions: 'Hand wash',
   designPhilosophy: 'Inspired by traditional embroidery',
 };

@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     template: "%s | Zarnigaar",
   },
   description:
-    "Zarnigaar is a Pakistani fashion house for premium lawn suits, embroidered clothing and signature scarves, crafted with heritage textile techniques for the modern woman.",
+    "Explore clothing, scarves, dupattas and accessories from Zarnigaar. Find the individual details for each article on its product page.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

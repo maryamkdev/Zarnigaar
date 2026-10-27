@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { PlaceholderImage } from "@/components/shared/placeholder-image";
 import { WishlistButton } from "@/components/product/wishlist-button";
+import { ProductRating } from "@/components/product/star-rating";
 import { formatPrice } from "@/lib/format";
 import type { Product } from "@/types/catalog";
 
@@ -84,6 +85,9 @@ export function ProductCard({ product }: { product: Product }) {
             <span className="font-medium text-foreground">{formatPrice(product.price)}</span>
           )}
         </div>
+      </Link>
+      <Link href={`/product/${product.slug}#reviews`} className="mt-2 w-fit" aria-label={`Reviews for ${product.name}`}>
+        <ProductRating averageRating={product.averageRating} reviewCount={product.reviewCount} />
       </Link>
     </div>
   );

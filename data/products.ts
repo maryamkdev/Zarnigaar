@@ -1,6 +1,7 @@
 import "server-only";
 import { createClient } from "@/lib/supabase/server";
 import { mapProduct } from "@/lib/mappers";
+import { getProductRatingSummaries } from "@/data/reviews";
 import type { Product, ProductCategory } from "@/types/catalog";
 
 const PRODUCT_SELECT = `
@@ -9,6 +10,11 @@ const PRODUCT_SELECT = `
   product_images ( id, url, alt, position ),
   collection_products ( collections ( slug ) )
 `;
+
+async function withRatings(products: Product[]): Promise<Product[]> {
+  const summaries = await getProductRatingSummaries(products.map((product) => product.id));
+  return products.map((product) => ({ ...product, ...summaries.get(product.id) }));
+}
 
 export async function getNewArrivals(limit = 6): Promise<Product[]> {
   const supabase = await createClient();
@@ -20,7 +26,7 @@ export async function getNewArrivals(limit = 6): Promise<Product[]> {
     .limit(limit);
 
   if (error || !data) return [];
-  return data.map(mapProduct);
+  return withRatings(data.map(mapProduct));
 }
 
 export async function getProductsByCategory(
@@ -37,7 +43,7 @@ export async function getProductsByCategory(
     .limit(limit);
 
   if (error || !data) return [];
-  return data.map(mapProduct).filter((p) => p.category === category);
+  return withRatings(data.map(mapProduct).filter((p) => p.category === category));
 }
 
 export async function getFeaturedProducts(limit = 8): Promise<Product[]> {
@@ -50,7 +56,7 @@ export async function getFeaturedProducts(limit = 8): Promise<Product[]> {
     .limit(limit);
 
   if (error || !data) return [];
-  return data.map(mapProduct);
+  return withRatings(data.map(mapProduct));
 }
 
 export async function getProductBySlug(slug: string): Promise<Product | null> {
@@ -63,7 +69,7 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
     .maybeSingle();
 
   if (error || !data) return null;
-  return mapProduct(data);
+  return (await withRatings([mapProduct(data)]))[0];
 }
 
 export async function getRelatedProducts(product: Product, limit = 4): Promise<Product[]> {
@@ -76,7 +82,7 @@ export async function getRelatedProducts(product: Product, limit = 4): Promise<P
     .limit(limit);
 
   if (error || !data) return [];
-  return data.map(mapProduct);
+  return withRatings(data.map(mapProduct));
 }
 
 export async function searchProducts(query: string): Promise<Product[]> {
@@ -126,7 +132,7 @@ export async function searchProducts(query: string): Promise<Product[]> {
     }
   }
 
-  return [...results.values()];
+  return withRatings([...results.values()]);
 }
 
 export async function getCollectionProducts(
@@ -144,5 +150,5 @@ export async function getCollectionProducts(
     .limit(limit);
 
   if (error || !data) return [];
-  return data.map(mapProduct);
+  return withRatings(data.map(mapProduct));
 }

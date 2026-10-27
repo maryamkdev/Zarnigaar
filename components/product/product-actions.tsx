@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { SizeGuideDialog } from "@/components/product/size-guide-dialog";
 import { WishlistButton } from "@/components/product/wishlist-button";
+import { ProductRating } from "@/components/product/star-rating";
 import { useCart } from "@/hooks/use-cart";
 import { formatPrice } from "@/lib/format";
 import type { Product } from "@/types/catalog";
@@ -49,6 +50,9 @@ export function ProductActions({ product }: { product: Product }) {
     <div className="flex flex-col gap-6">
       <div>
         <h1 className="font-heading text-3xl">{product.name}</h1>
+        <a href="#reviews" className="mt-3 inline-block">
+          <ProductRating averageRating={product.averageRating} reviewCount={product.reviewCount} />
+        </a>
         <div className="mt-2 flex items-center gap-3">
           <span className="text-lg font-medium">{formatPrice(price)}</span>
           {product.salePrice !== null && (

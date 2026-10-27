@@ -10,7 +10,7 @@ export default async function WomenPage() {
 
   return (
     <>
-      <PageHeader title="Women" description="Lawn suits, co-ord sets and embroidered pieces for everyday elegance." />
+      <PageHeader title="Women" description="Explore our clothing collection. See each article for its individual details." />
       <div className="container-page py-14">
         <ProductGrid products={products} />
       </div>

@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import { ProductGallery } from "@/components/product/gallery";
 import { ProductActions } from "@/components/product/product-actions";
 import { DeliveryInfo } from "@/components/product/delivery-info";
+import { ProductReviews } from "@/components/product/product-reviews";
+import { parseReviewPage } from "@/lib/validation/review";
 import { ProductGrid } from "@/components/shop/product-grid";
 import { getProductBySlug, getRelatedProducts } from "@/data/products";
 
@@ -18,14 +20,17 @@ export async function generateMetadata({
 
 export default async function ProductDetailPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<{ reviewsPage?: string }>;
 }) {
   const { slug } = await params;
   const product = await getProductBySlug(slug);
   if (!product) notFound();
 
   const related = await getRelatedProducts(product, 4);
+  const { reviewsPage } = await searchParams;
 
   return (
     <div className="container-page py-10 sm:py-14">
@@ -44,6 +49,8 @@ export default async function ProductDetailPage({
           <DeliveryInfo />
         </div>
       </div>
+
+      <ProductReviews product={product} page={parseReviewPage(reviewsPage)} />
 
       {related.length > 0 && (
         <div className="mt-20">

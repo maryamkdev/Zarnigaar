@@ -3,23 +3,43 @@
 These instructions target a new, empty Supabase database for this checkout.
 The SQL files are prepared locally; they have not been run against your hosted project.
 
+## Updating the existing website (fabric wording and reviews)
+
+If your database is already set up, run **`04_product_reviews_update.sql`** once
+in its Supabase SQL Editor. It combines migrations 0008 and 0009; it is the update
+for an existing installation. Deploy the matching application changes afterward.
+The complete unified initialization file below is for a new database.
+
+Migration 0008 removes only matching original sample names/descriptions and the
+sample fabric FAQ. It leaves your manually entered fabric details, care
+instructions and edited descriptions intact. Historical product/collection URLs
+remain valid. Fresh sample content also uses neutral names and empty descriptions.
+
+Migration 0009 enables real 1-5 star ratings and written feedback. Anyone can
+read reviews for published products; signed-in accounts can post one review per
+product, edit it or remove it. Names come from the account profile, without
+exposing email addresses. Product cards show the actual average and count;
+empty products have no invented reviews or ratings. Feedback is paginated.
+Reviews appear immediately and are not marked as verified purchases.
+
 ## 1. Initialize Supabase
 
 Open the **new** Supabase project, open **SQL Editor**, create a query, paste the
 entire contents of [`../unified_migrations.sql`](../unified_migrations.sql), and run it once as the dashboard's
 `postgres` role. It creates:
 
-- All 17 application tables and their relationships.
+- All 18 application tables and their relationships.
 - Row Level Security and the application's access policies.
 - The public `media` storage bucket and admin upload/delete policies.
 - The signup trigger that creates customer profiles.
 - Contact messages and all four article-detail columns.
 - Explicit API grants, including protection against customers changing their role.
 - The starter categories, collections, products, deals and FAQs from migration 0004.
+- Product reviews and the view that calculates product rating summaries.
 
 The script runs in a transaction and stops if any application table already
 exists. Do not run the individual schema/policy migrations again after this
-bundle. It combines all seven migrations, 0001 through 0007, in numeric order,
+bundle. It combines all nine migrations, 0001 through 0009, in numeric order,
 including 0004 starter content. It does not create Supabase CLI migration-history rows.
 If you later adopt `supabase db push`, reconcile the applied migration history
 first; otherwise the CLI will try to create the policies again.
@@ -157,3 +177,6 @@ Two existing app behaviors need code changes rather than setup queries:
 The new database starts empty. Restoring old customer accounts, inventory,
 orders, and Storage files is a separate data migration. This setup script does
 not migrate them or rewrite old absolute image URLs.
+
+Regenerate the SQL bundles after editing migrations with
+`node scripts/build-supabase-setup.mjs`.

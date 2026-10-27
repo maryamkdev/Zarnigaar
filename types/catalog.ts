@@ -30,6 +30,8 @@ export interface Product {
   isFeatured: boolean;
   isSoldOut: boolean;
   images: ProductImage[];
+  averageRating: number | null;
+  reviewCount: number | null;
   createdAt: string;
 }
 

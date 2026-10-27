@@ -36,6 +36,8 @@ export function mapProduct(row: ProductRow): Product {
     isFeatured: row.is_featured,
     isSoldOut: row.is_sold_out || row.stock <= 0,
     images,
+    averageRating: null,
+    reviewCount: null,
     createdAt: row.created_at,
   };
 }

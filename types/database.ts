@@ -413,8 +413,43 @@ export interface Database {
         Update: Partial<{ name: string; email: string; message: string }>;
         Relationships: [];
       };
+      product_reviews: {
+        Row: {
+          id: string;
+          product_id: string;
+          user_id: string;
+          author_name: string;
+          rating: number;
+          body: string;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: { product_id: string; rating: number; body: string };
+        Update: { rating?: number; body?: string };
+        Relationships: [
+          {
+            foreignKeyName: "product_reviews_product_id_fkey";
+            columns: ["product_id"];
+            isOneToOne: false;
+            referencedRelation: "products";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "product_reviews_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
     };
-    Views: Record<string, never>;
+    Views: {
+      product_rating_summaries: {
+        Row: { product_id: string; average_rating: number; review_count: number };
+        Relationships: [];
+      };
+    };
     Functions: Record<string, never>;
     Enums: Record<string, never>;
     CompositeTypes: Record<string, never>;

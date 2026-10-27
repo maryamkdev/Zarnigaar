@@ -35,6 +35,13 @@ In the Supabase SQL Editor (or via the Supabase CLI), run the files in `supabase
 3. `0003_storage.sql` — creates the public `media` Storage bucket + its policies
 4. `0004_seed.sql` — optional starter content (categories, a handful of products, FAQs, one deal) so the storefront isn't empty. Product photography is intentionally left blank; product cards show a soft placeholder until you upload real images through `/admin/products`.
 5. `0005_contact_messages.sql` — table backing the Contact page form
+6. `0006_article_details.sql` — optional article-detail fields entered in admin
+7. `0007_api_permissions.sql` — explicit API permissions and protected admin roles
+8. `0008_remove_seed_fabric_claims.sql` — remove the original sample fabric claims
+9. `0009_product_reviews.sql` — customer reviews, rating summaries and access policies
+
+For an existing installation with migrations 0001–0007 already applied, run
+`supabase/setup/04_product_reviews_update.sql` once to apply just 0008 and 0009.
 
 ```bash
 # with the Supabase CLI, from the project root:
@@ -112,6 +119,18 @@ and cannot be verified without access to the test inbox.
 - **Shipping/coupons**: flat-rate shipping with a free-shipping threshold lives in `lib/pricing.ts` — adjust `FLAT_SHIPPING_RATE` / `FREE_SHIPPING_THRESHOLD` there. Checkout always re-prices and re-validates stock/coupons server-side (`actions/checkout.ts`), never trusting client-submitted totals.
 
 ## Admin content management
+
+Fabric information is entered manually per article in `/admin/products`; blank
+fabric and care fields stay hidden. Website copy and fresh sample inventory
+do not assume a fabric type. Existing installations should apply
+`supabase/setup/04_product_reviews_update.sql` to remove original sample fabric
+claims and install product reviews. It preserves merchant-entered fabric details
+and edited descriptions. Do not rerun the full initialization on an existing database.
+
+Product pages include real ratings, written reviews and pagination. Signed-in
+customers can create one review per product, then edit or remove their own review.
+Product cards show each product's actual average and review count. Review authors
+use account profile names; email addresses are not displayed.
 
 Use `/admin/products` to create articles with name, description, fabric details,
 additional article details, sizes, colors, care instructions, design philosophy,
