@@ -36,9 +36,10 @@ export async function getProductsByCategory(
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("products")
-    .select(PRODUCT_SELECT)
+    .select(`*, categories!inner ( slug ), product_images ( id, url, alt, position ), collection_products ( collections ( slug ) )`)
     .eq("status", "active")
     .eq("categories.slug", category)
+    .order("is_featured", { ascending: false })
     .order("created_at", { ascending: false })
     .limit(limit);
 
@@ -147,6 +148,8 @@ export async function getCollectionProducts(
     )
     .eq("status", "active")
     .eq("collection_products.collections.slug", collectionSlug)
+    .order("is_featured", { ascending: false })
+    .order("created_at", { ascending: false })
     .limit(limit);
 
   if (error || !data) return [];

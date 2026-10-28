@@ -30,6 +30,7 @@ export async function createCollection(_prev: FormState, formData: FormData): Pr
 
   revalidatePath("/admin/collections");
   revalidatePath("/collection");
+  revalidatePath("/");
   return { error: null, success: true };
 }
 
@@ -50,6 +51,8 @@ export async function updateCollection(id: string, _prev: FormState, formData: F
   if (error) return { error: error.message };
 
   revalidatePath("/admin/collections");
+  revalidatePath("/");
+  revalidatePath("/collection/[slug]", "page");
   return { error: null, success: true };
 }
 
@@ -58,6 +61,8 @@ export async function deleteCollection(id: string) {
   const { error } = await supabase.from("collections").delete().eq("id", id);
   if (error) return { ok: false, message: error.message };
   revalidatePath("/admin/collections");
+  revalidatePath("/");
+  revalidatePath("/collection/[slug]", "page");
   return { ok: true };
 }
 
@@ -73,5 +78,7 @@ export async function setCollectionProducts(collectionId: string, productIds: st
 
   revalidatePath(`/admin/collections/${collectionId}`);
   revalidatePath("/collection");
+  revalidatePath("/");
+  revalidatePath("/collection/[slug]", "page");
   return { ok: true };
 }

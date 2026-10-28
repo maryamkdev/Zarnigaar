@@ -54,6 +54,12 @@ export default async function AdminCollectionsPage() {
         </AdminFormDialog>
       </div>
 
+      <p className="max-w-2xl text-sm text-muted-foreground">
+        To choose the articles in the home page&apos;s Plain Suits row, create a collection with the slug
+        <code className="mx-1 rounded bg-muted px-1.5 py-0.5 text-xs">plain-suits</code>
+        and use its Products link to select the articles.
+      </p>
+
       <div className="overflow-x-auto border border-border">
         <Table>
           <TableHeader>

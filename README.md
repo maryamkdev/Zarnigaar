@@ -120,6 +120,15 @@ and cannot be verified without access to the test inbox.
 
 ## Admin content management
 
+The home page uses the supplied collection photo in its hero, scroll-linked
+parallax, and separate horizontal rows for Scarves and Plain Suits. Scarves come
+from the Scarves category. To curate Plain Suits, create a collection named
+`Plain Suits` with slug `plain-suits` in `/admin/collections`, open its Products
+link, and select the articles. Published products appear in their row, with
+featured products first. No database migration is needed for these home-page
+changes. Scrolling supports touch, keyboard and arrow controls, and respects
+reduced-motion preferences.
+
 Fabric information is entered manually per article in `/admin/products`; blank
 fabric and care fields stay hidden. Website copy and fresh sample inventory
 do not assume a fabric type. Existing installations should apply

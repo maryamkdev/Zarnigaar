@@ -139,12 +139,19 @@
   }
   html {
     @apply font-sans;
+    scroll-padding-top: 6rem;
   }
   h1,
   h2,
   h3,
   h4 {
     @apply font-heading tracking-tight;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
   }
 }
 
