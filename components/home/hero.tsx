@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useRef } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import heroImage from "@/public/images/hero-collection.jpeg";
+import heroImage from "@/public/hero-collection.jpeg";
 
 export function Hero() {
   const imageRef = useRef<HTMLDivElement>(null);

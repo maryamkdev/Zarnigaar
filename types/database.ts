@@ -413,6 +413,12 @@ export interface Database {
         Update: Partial<{ name: string; email: string; message: string }>;
         Relationships: [];
       };
+      homepage_sections: {
+        Row: { section_id: string; enabled: boolean; updated_at: string };
+        Insert: { section_id: string; enabled?: boolean };
+        Update: { enabled?: boolean };
+        Relationships: [];
+      };
       product_reviews: {
         Row: {
           id: string;

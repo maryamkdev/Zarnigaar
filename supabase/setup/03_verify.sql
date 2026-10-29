@@ -8,7 +8,7 @@ with expected(table_name) as (values
   ('profiles'), ('admin_users'), ('categories'), ('collections'), ('products'),
   ('product_images'), ('collection_products'), ('orders'), ('order_items'),
   ('discounts'), ('discount_usages'), ('deals'), ('wishlists'), ('wishlist_items'),
-  ('faqs'), ('media'), ('contact_messages'), ('product_reviews')
+  ('faqs'), ('media'), ('contact_messages'), ('product_reviews'), ('homepage_sections')
 )
 select e.table_name, c.oid is not null as table_exists,
   coalesce(c.relrowsecurity, false) as rls_enabled,
@@ -95,3 +95,13 @@ select
   has_column_privilege('authenticated', 'public.product_reviews', 'rating', 'INSERT') as customers_can_rate,
   not has_column_privilege('authenticated', 'public.product_reviews', 'user_id', 'INSERT') as customers_cannot_forge_author,
   not has_column_privilege('authenticated', 'public.product_reviews', 'product_id', 'UPDATE') as reviews_cannot_move_products;
+
+-- 12. Seven homepage controls. Promotion tiles start false; saved choices may differ.
+select section_id, enabled, updated_at from public.homepage_sections order by section_id;
+
+-- 13. Homepage visibility grants: all values should be true (RLS limits updates to admins).
+select
+  has_table_privilege('anon', 'public.homepage_sections', 'SELECT') as public_can_read_visibility,
+  not has_table_privilege('anon', 'public.homepage_sections', 'UPDATE') as guests_cannot_change_visibility,
+  has_column_privilege('authenticated', 'public.homepage_sections', 'enabled', 'UPDATE') as signed_in_role_can_reach_update_policy,
+  not has_column_privilege('authenticated', 'public.homepage_sections', 'section_id', 'UPDATE') as section_identifiers_are_protected;

@@ -4,6 +4,7 @@ import { PlaceholderImage } from "@/components/shared/placeholder-image";
 import { Reveal } from "@/components/shared/reveal";
 import { Button } from "@/components/ui/button";
 import type { Deal } from "@/types/catalog";
+import type { HomepageVisibility } from "@/lib/homepage-sections";
 
 function PromoTile({
   seed,
@@ -43,53 +44,35 @@ function PromoTile({
   );
 }
 
-export function EditorialGrid({ deals }: { deals: Deal[] }) {
+export function EditorialGrid({ deals, visibility }: { deals: Deal[]; visibility: HomepageVisibility }) {
+  const tiles = [
+    { sectionId: "scarves_promotion", seed: "premium-scarves", title: "Premium Scarves", description: "Add a touch of sophistication to every look.", ctaLabel: "Shop Scarves", ctaHref: "/scarves" },
+    { sectionId: "clothing_promotion", seed: "ready-to-wear", title: "Ready to Wear", description: "Comfort meets elegance in every piece.", ctaLabel: "Shop Now", ctaHref: "/women" },
+    { sectionId: "accessories_promotion", seed: "accessories", title: "Accessories", description: "The finishing touch to your style.", ctaLabel: "Shop Accessories", ctaHref: "/accessories" },
+  ] as const;
+  const visibleTiles = tiles.filter(tile => visibility[tile.sectionId]);
+  const visibleDeals = visibility.deals ? deals.filter(deal => deal.imageUrl.trim().length > 0) : [];
+  if (visibleTiles.length === 0 && visibleDeals.length === 0) return null;
+
   return (
-    <section className="container-page py-16 sm:py-20">
-      <div className="grid gap-4 lg:grid-cols-2 lg:items-stretch">
-        <Reveal className="h-full">
-          <PromoTile
-            seed="premium-scarves"
-            title="Premium Scarves"
-            description="Add a touch of sophistication to every look."
-            ctaLabel="Shop Scarves"
-            ctaHref="/scarves"
-            className="h-full min-h-[400px]"
-          />
-        </Reveal>
-
-        <div className="flex flex-col gap-4">
-          <div className="grid flex-1 gap-4 sm:grid-cols-2">
-            <Reveal delay={0.1}>
-              <PromoTile
-                seed="ready-to-wear"
-                title="Ready to Wear"
-                description="Comfort meets elegance in every piece."
-                ctaLabel="Shop Now"
-                ctaHref="/women"
-                className="h-full"
-              />
+    <div className="container-page space-y-4 py-12 sm:py-16">
+      {visibleTiles.length > 0 && (
+        <section aria-label="Featured categories" className={`grid gap-4 ${visibleTiles.length === 3 ? "lg:grid-cols-3" : visibleTiles.length === 2 ? "sm:grid-cols-2" : ""}`}>
+          {visibleTiles.map(({ sectionId, ...tile }, index) => (
+            <Reveal key={sectionId} delay={index * 0.05} className="h-full">
+              <PromoTile {...tile} className="min-h-[340px]" />
             </Reveal>
-            <Reveal delay={0.15}>
-              <PromoTile
-                seed="accessories"
-                title="Accessories"
-                description="The finishing touch to your style."
-                ctaLabel="Shop Accessories"
-                ctaHref="/collection"
-                className="h-full"
-              />
-            </Reveal>
-          </div>
-
-          {deals.map((deal) => (
-            <Reveal key={deal.id} delay={0.2}>
+          ))}
+        </section>
+      )}
+      {visibleDeals.length > 0 && (
+        <section aria-label="Deal banners" className="space-y-4">
+          {visibleDeals.map(deal => (
+            <Reveal key={deal.id}>
               <div className="relative flex min-h-[180px] items-center overflow-hidden bg-ink">
-                {deal.imageUrl ? (
-                  // Admin media URLs may include images outside Next's configured optimizer domains.
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={deal.imageUrl} alt="" className="absolute inset-0 h-full w-full object-cover opacity-40" />
-                ) : <PlaceholderImage seed="sale-banner" className="absolute inset-0 h-full w-full opacity-40" />}
+                {/* Admin media URLs may include images outside the optimizer's configured domains. */}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={deal.imageUrl} alt="" className="absolute inset-0 h-full w-full object-cover opacity-40" />
                 <div className="relative flex w-full flex-col items-start gap-4 p-7 sm:flex-row sm:items-center sm:justify-between">
                   <div>
                     <h3 className="font-heading text-2xl text-cream sm:text-3xl">{deal.title}</h3>
@@ -100,8 +83,8 @@ export function EditorialGrid({ deals }: { deals: Deal[] }) {
               </div>
             </Reveal>
           ))}
-        </div>
-      </div>
-    </section>
+        </section>
+      )}
+    </div>
   );
 }

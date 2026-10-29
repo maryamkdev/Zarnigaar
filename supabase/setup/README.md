@@ -3,6 +3,20 @@
 These instructions target a new, empty Supabase database for this checkout.
 The SQL files are prepared locally; they have not been run against your hosted project.
 
+## Updating the existing website (section visibility)
+
+If migrations 0001–0009 are already installed, run
+**`05_homepage_sections_update.sql`** in Supabase SQL Editor, then deploy the
+matching application changes. This adds migration 0010 and preserves existing
+products, reviews and saved visibility choices when rerun.
+
+Open **Admin > Website Sections** (`/admin/sections`) to show or hide each homepage
+section. Toggles save automatically. Hero, Scarves and Our Articles start enabled;
+placeholder promotion tiles start hidden. Empty product rows and active deals
+without uploaded images do not render. Seasonal Favorites has been removed.
+If settings cannot be loaded, the storefront uses these safe defaults and admin
+controls show an error instead of pretending a change was saved.
+
 ## Updating the existing website (fabric wording and reviews)
 
 If your database is already set up, run **`04_product_reviews_update.sql`** once
@@ -28,7 +42,7 @@ Open the **new** Supabase project, open **SQL Editor**, create a query, paste th
 entire contents of [`../unified_migrations.sql`](../unified_migrations.sql), and run it once as the dashboard's
 `postgres` role. It creates:
 
-- All 18 application tables and their relationships.
+- All 19 application tables and their relationships.
 - Row Level Security and the application's access policies.
 - The public `media` storage bucket and admin upload/delete policies.
 - The signup trigger that creates customer profiles.
@@ -36,10 +50,11 @@ entire contents of [`../unified_migrations.sql`](../unified_migrations.sql), and
 - Explicit API grants, including protection against customers changing their role.
 - The starter categories, collections, products, deals and FAQs from migration 0004.
 - Product reviews and the view that calculates product rating summaries.
+- Homepage section visibility, with public read access and admin-only updates.
 
 The script runs in a transaction and stops if any application table already
 exists. Do not run the individual schema/policy migrations again after this
-bundle. It combines all nine migrations, 0001 through 0009, in numeric order,
+bundle. It combines all ten migrations, 0001 through 0010, in numeric order,
 including 0004 starter content. It does not create Supabase CLI migration-history rows.
 If you later adopt `supabase db push`, reconcile the applied migration history
 first; otherwise the CLI will try to create the policies again.

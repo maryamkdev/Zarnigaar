@@ -13,10 +13,10 @@ begin
       'profiles', 'admin_users', 'categories', 'collections', 'products',
       'product_images', 'collection_products', 'orders', 'order_items',
       'discounts', 'discount_usages', 'deals', 'wishlists', 'wishlist_items',
-      'faqs', 'media', 'contact_messages', 'product_reviews'
+      'faqs', 'media', 'contact_messages', 'product_reviews', 'homepage_sections'
     )
   ) then
-    raise exception 'Application tables already exist. Use setup/04_product_reviews_update.sql for an existing installation; do not rerun initialization.';
+    raise exception 'Application tables already exist. Use the relevant update files in supabase/setup for an existing installation; do not rerun initialization.';
   end if;
 end;
 $fresh_project$;`;
@@ -46,3 +46,5 @@ await bundle('supabase/setup/01_initialize.sql', files.filter(name => !name.star
   'Zarnigaar: initialize a NEW, EMPTY project without demo inventory. Run once.', true);
 await bundle('supabase/setup/04_product_reviews_update.sql', files.filter(name => /^000[89]_/.test(name)),
   'Zarnigaar: upgrade an EXISTING project with migrations 0001-0007 already applied. Cleans original sample fabric claims and enables reviews.', false);
+await bundle('supabase/setup/05_homepage_sections_update.sql', files.filter(name => name.startsWith('0010_')),
+  'Zarnigaar: upgrade an EXISTING project with persistent homepage section visibility. Run after migrations 0001-0009.', false);

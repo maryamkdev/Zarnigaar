@@ -39,9 +39,12 @@ In the Supabase SQL Editor (or via the Supabase CLI), run the files in `supabase
 7. `0007_api_permissions.sql` — explicit API permissions and protected admin roles
 8. `0008_remove_seed_fabric_claims.sql` — remove the original sample fabric claims
 9. `0009_product_reviews.sql` — customer reviews, rating summaries and access policies
+10. `0010_homepage_sections.sql` — persistent homepage visibility controlled by admins
 
 For an existing installation with migrations 0001–0007 already applied, run
 `supabase/setup/04_product_reviews_update.sql` once to apply just 0008 and 0009.
+For an existing installation with migrations 0001–0009 applied, run
+`supabase/setup/05_homepage_sections_update.sql` to add the section controls.
 
 ```bash
 # with the Supabase CLI, from the project root:
@@ -125,9 +128,15 @@ parallax, and separate horizontal rows for Scarves and Our Articles. Scarves com
 from the Scarves category. Our Articles appears directly below Scarves and uses
 the Clothing category, matching the products on the Women page. The row's View
 All link opens `/women`; no separate collection is required. Published products
-appear in their row, with featured products first. No database migration is needed for these home-page
-changes. Scrolling supports touch, keyboard and arrow controls, and respects
-reduced-motion preferences.
+appear in their row, with featured products first. Scrolling supports touch,
+keyboard and arrow controls, and respects reduced-motion preferences.
+
+Use `/admin/sections` (Website Sections) to show or hide the hero, product rows,
+individual promotion tiles and deal banners. Changes save automatically and are
+stored in Supabase. Apply `supabase/setup/05_homepage_sections_update.sql` first
+on an existing database. Seasonal Favorites has been removed. Placeholder
+promotion tiles start hidden; empty product rows and deals without uploaded
+images are omitted. Safe defaults also apply while the settings table is unavailable.
 
 Fabric information is entered manually per article in `/admin/products`; blank
 fabric and care fields stay hidden. Website copy and fresh sample inventory
