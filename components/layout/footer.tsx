@@ -2,19 +2,18 @@ import Link from "next/link";
 import Image from "next/image";
 import { Mail } from "lucide-react";
 import { InstagramIcon, FacebookIcon } from "@/components/shared/social-icons";
+import { POLICY_LINKS, SUPPORT_HREF } from "@/lib/store-policies";
 
 const FOOTER_LINKS = {
   Shop: [
-    { href: "/women", label: "Women" },
     { href: "/scarves", label: "Scarves" },
     { href: "/new-in", label: "New In" },
     { href: "/collection", label: "Collections" },
   ],
   Help: [
     { href: "/faq", label: "FAQ" },
-    { href: "/faq#shipping", label: "Shipping" },
-    { href: "/faq#returns", label: "Returns & Exchanges" },
     { href: "/contact", label: "Contact Us" },
+    ...POLICY_LINKS,
   ],
   About: [
     { href: "/about", label: "Our Story" },
@@ -50,13 +49,13 @@ export function Footer() {
             >
               <FacebookIcon className="h-4 w-4" />
             </a>
-            <a
-              href="mailto:hello@zarnigaar.example"
-              aria-label="Email"
+            <Link
+              href={SUPPORT_HREF}
+              aria-label="Contact Zarnigaar"
               className="flex h-9 w-9 items-center justify-center rounded-full border border-border text-foreground/70 transition-colors hover:border-foreground hover:text-foreground"
             >
               <Mail className="h-4 w-4" strokeWidth={1.5} />
-            </a>
+            </Link>
           </div>
         </div>
 

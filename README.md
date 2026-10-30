@@ -121,6 +121,24 @@ and cannot be verified without access to the test inbox.
 - **Product images**: placeholders (`components/shared/placeholder-image.tsx`) render for any product without uploaded photos, so the site never fakes photography. Upload real images per-product from `/admin/products/[id]`.
 - **Shipping/coupons**: flat-rate shipping with a free-shipping threshold lives in `lib/pricing.ts` — adjust `FLAT_SHIPPING_RATE` / `FREE_SHIPPING_THRESHOLD` there. Checkout always re-prices and re-validates stock/coupons server-side (`actions/checkout.ts`), never trusting client-submitted totals.
 
+## Customer policies
+
+Public policy pages are available at `/privacy-policy`, `/return-refund-policy`,
+`/shipping-policy` and `/terms-and-conditions`. They are linked from the footer,
+checkout and relevant product details. No database migration is needed.
+
+Shipping charges use `lib/pricing.ts`, including the same pre-discount free-shipping
+threshold as checkout. The existing seven-day return window and delivery estimates
+are shared through `lib/store-policies.ts`. Policy requests link to the contact
+form; no unverified support email or business address is published.
+
+Before publishing, confirm the business's return and delivery commitments and
+set any fixed refund processing time and return-courier cost allocation in the
+return policy. The initial wording confirms those refund arrangements with the
+customer for each approved request. Update payment wording when online payments
+are activated, and review the privacy policy when adding new service providers
+or tracking tools.
+
 ## Admin content management
 
 The home page shows the supplied collection photo in its hero, scroll-linked

@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import { Mail } from "lucide-react";
+import Link from "next/link";
 import { PageHeader } from "@/components/shop/page-header";
 import { ContactForm } from "@/components/shop/contact-form";
-import { InstagramIcon, FacebookIcon } from "@/components/shared/social-icons";
 
 export const metadata: Metadata = { title: "Contact" };
 
@@ -18,29 +17,19 @@ export default function ContactPage() {
             days.
           </p>
 
-          <ul className="mt-6 flex flex-col gap-4 text-sm">
-            <li className="flex items-center gap-3">
-              <Mail className="h-4 w-4" strokeWidth={1.5} />
-              <a href="mailto:hello@zarnigaar.example" className="hover:underline">
-                hello@zarnigaar.example
-              </a>
-            </li>
-            <li className="flex items-center gap-3">
-              <InstagramIcon className="h-4 w-4" />
-              <a href="#" className="hover:underline">
-                @zarnigaar
-              </a>
-            </li>
-            <li className="flex items-center gap-3">
-              <FacebookIcon className="h-4 w-4" />
-              <a href="#" className="hover:underline">
-                /zarnigaar
-              </a>
-            </li>
-          </ul>
+          <p className="mt-5 text-sm leading-7 text-muted-foreground">
+            Use the form for delivery questions, returns, cancellations or a privacy request. If you have an order,
+            include its order number and the email address used at checkout. Please do not include payment PINs,
+            card security codes or passwords.
+          </p>
+          <div className="mt-6 flex flex-wrap gap-x-5 gap-y-3 text-sm">
+            <Link href="/shipping-policy" className="underline underline-offset-4">Shipping & Delivery</Link>
+            <Link href="/return-refund-policy" className="underline underline-offset-4">Returns & Refunds</Link>
+            <Link href="/privacy-policy" className="underline underline-offset-4">Privacy Policy</Link>
+          </div>
         </div>
 
-        <div>
+        <div id="contact-form" className="scroll-mt-28">
           <h2 className="font-heading text-xl">Send a Message</h2>
           <div className="mt-3">
             <ContactForm />

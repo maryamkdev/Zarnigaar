@@ -279,10 +279,13 @@ export default function CheckoutPage() {
               </Button>
               <p className="mt-3 text-center text-xs text-muted-foreground">
                 By placing your order you agree to our{" "}
-                <Link href="/faq" className="underline underline-offset-4">
-                  policies
+                <Link href="/terms-and-conditions" className="underline underline-offset-4">
+                  Terms &amp; Conditions
                 </Link>
-                .
+                . Read our{" "}
+                <Link href="/privacy-policy" className="underline underline-offset-4">Privacy Policy</Link>,{" "}
+                <Link href="/return-refund-policy" className="underline underline-offset-4">Return &amp; Refund Policy</Link>{" "}
+                and <Link href="/shipping-policy" className="underline underline-offset-4">Shipping Policy</Link>.
               </p>
             </div>
           </form>
